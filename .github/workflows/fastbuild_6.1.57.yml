@@ -154,9 +154,9 @@ jobs:
           mkdir kernel_workspace
           cd kernel_workspace
           echo "正在克隆源码仓库..."
-          aria2c -s16 -x16 -k1M https://github.com/furrybluelan/realme_GT6-AndroidV-common-source/archive/refs/tags/0.1.0.zip -o common.zip
+          aria2c -s16 -x16 -k1M https://github.com/furrybluelan/realme_GT6-AndroidV-common-source/archive/refs/tags/0.1.0.tar.gz -o common.zip
           unzip -q common.zip
-          mv "realme_GT6-AndroidV-common-source-0.1.0" common
+          mv "android_kernel_common_oneplus_sm8650-oneplus-sm8650_u_14.0.0_oneplus12" common
           rm -rf common.zip
           echo "正在克隆llvm-Clang20工具链..."
           rm -rf clang20
