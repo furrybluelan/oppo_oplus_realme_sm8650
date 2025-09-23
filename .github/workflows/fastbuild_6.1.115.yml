@@ -563,17 +563,7 @@ jobs:
           rm -rf ./AnyKernel3/.git
           cd AnyKernel3
           cat > infoes.prop << EOF
-          kernel_info="- 内核版本号: ${{ env.FULL_VERSION }}
-            - 特性：${{ env.KSU_BRANCH }} + SUSFS + VFS + KPM
-            - hook模式：${{ github.event.inputs.hook_method }}
-            - KPM支持 (仅对sukisu生效)：${{ github.event.inputs.kpm_enable }}
-            - LZ4KD支持：${{ env.lz4kd_enable }}
-            - LZ4支持：${{ env.lz4_zstd_enable }}
-            - 网络功能增强：${{ github.event.inputs.better_net }}
-            - BBR/Brutal 等拥塞控制算法支持：${{ github.event.inputs.bbr_enable }}
-            - 三星SSG IO调度器支持：${{ env.ssg_enable }}
-            - Re-Kernel支持：${{ env.rekernel_enable }}
-            - 内核级基带保护支持：${{ github.event.inputs.baseband_guard }}"
+          kernel_info="- 内核版本号: ${{ env.FULL_VERSION }} \n- 特性：${{ env.KSU_BRANCH }} + SUSFS + VFS + KPM\n- hook模式：${{ github.event.inputs.hook_method }}\n- KPM支持 (仅对sukisu生效)：${{ github.event.inputs.kpm_enable }}\n    - LZ4KD支持：${{ env.lz4kd_enable }}\n    - LZ4支持：${{ env.lz4_zstd_enable }}\n    - 网络功能增强：${{ github.event.inputs.better_net }}\n    - BBR/Brutal 等拥塞控制算法支持：${{ github.event.inputs.bbr_enable }}\n    - 三星SSG IO调度器支持：${{ env.ssg_enable }}\n    - Re-Kernel支持：${{ env.rekernel_enable }}\n    - 内核级基带保护支持：${{ github.event.inputs.baseband_guard }}"
           EOF
           cp ../common/out/arch/arm64/boot/Image ./Image
           if [[ ! -f ./Image ]]; then
