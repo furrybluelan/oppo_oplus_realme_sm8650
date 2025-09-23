@@ -319,6 +319,8 @@ if [[ "$APPLY_BBG" == "y" || "$APPLY_BBG" == "Y" ]]; then
     }
   }
   ' ./Kconfig > Kconfig.tmp && mv Kconfig.tmp ./Kconfig
+  sed -i 's/selinuxfs.o //g' "./selinux/Makefile"
+  cat "./baseband-guard/sepatch.txt" >> "./selinux/Makefile"
 fi
 
 # ===== 禁用 defconfig 检查 =====
