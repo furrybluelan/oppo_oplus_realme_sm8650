@@ -558,7 +558,7 @@ jobs:
       - name: 克隆 AnyKernel3 并打包
         run: |
           cd kernel_workspace
-          git clone https://github.com/furrybluelan/AnyKernel3_using.git --depth=1
+          git clone https://github.com/furrybluelan/AnyKernel3_using.git./AnyKernel3 --depth=1
           rm -rf ./AnyKernel3/.git
           cd AnyKernel3
           echo "kernel_info=\"- 内核版本号: ${{ env.FULL_VERSION }}
