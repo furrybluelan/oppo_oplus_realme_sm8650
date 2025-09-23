@@ -555,6 +555,54 @@ jobs:
             mv oImage Image
           fi
           
+      - name: 设置环境变量
+        run: |
+          if [[ -n "${{ github.event.inputs.kernel_suffix }}" ]]; then
+            FULL_VERSION=${{ format('{0}.118-{1}', env.KERNEL_VERSION, github.event.inputs.kernel_suffix) }}
+            echo "FULL_VERSION=$FULL_VERSION" >> $GITHUB_ENV
+            export FULL_VERSION=$FULL_VERSION
+          else
+            FULL_VERSION=${{ format('{0}.118-{1}', env.KERNEL_VERSION, env.KERNEL_NAME) }}
+            echo "FULL_VERSION=$FULL_VERSION" >> $GITHUB_ENV
+            export FULL_VERSION=$FULL_VERSION
+          fi
+          TIME="$(TZ='Asia/Shanghai' date +'%y%m%d%H%M%S')"
+          TIME_FORM="$(TZ='Asia/Shanghai' date +'%Y-%m-%d %H:%M:%S')"
+          echo "TIME=$TIME" >> $GITHUB_ENV
+          echo "TIME_FORM=$TIME_FORM" >> $GITHUB_ENV
+          TAG_HEAD="OPPO+OPlus+Realme-A15-build"
+          echo "TAG_HEAD=$TAG_HEAD" >> $GITHUB_ENV
+          if [[ ${{ github.event.inputs.ksu_type }} == "sukisu" ]]; then
+            KSU_BRANCH="SukiSU Ultra"
+          else
+            KSU_BRANCH="KernelSU Next"
+          fi
+          echo "KSU_BRANCH=$KSU_BRANCH" >> $GITHUB_ENV
+          if [[ "${{ github.event.inputs.lz4_enable }}" == "2" || "${{ github.event.inputs.lz4_enable }}" == "3" ]]; then
+            lz4kd_enable="true"
+          else
+            lz4kd_enable="false"
+          fi
+          if [[ "${{ github.event.inputs.lz4_enable }}" == "1" || "${{ github.event.inputs.lz4_enable }}" == "3" ]]; then
+            lz4_zstd_enable="true"
+          else
+            lz4_zstd_enable="false"
+          fi
+          if [[ "${{ github.event.inputs.ssg_rekernel_enable }}" == "1" || "${{ github.event.inputs.ssg_rekernel_enable }}" == "3" ]]; then
+            ssg_enable="true"
+          else
+            ssg_enable="false"
+          fi
+          if [[ "${{ github.event.inputs.ssg_rekernel_enable }}" == "2" || "${{ github.event.inputs.ssg_rekernel_enable }}" == "3" ]]; then
+            rekernel_enable="true"
+          else
+            rekernel_enable="false"
+          fi
+          echo "lz4kd_enable=$lz4kd_enable" >> $GITHUB_ENV
+          echo "lz4_zstd_enable=$lz4_zstd_enable" >> $GITHUB_ENV
+          echo "ssg_enable=$ssg_enable" >> $GITHUB_ENV
+          echo "rekernel_enable=$rekernel_enable" >> $GITHUB_ENV
+
       - name: 克隆 AnyKernel3 并打包
         run: |
           cd kernel_workspace
@@ -563,17 +611,7 @@ jobs:
           rm -rf ./AnyKernel3/.git
           cd AnyKernel3
           cat > infoes.prop << EOF
-          kernel_info="- 内核版本号: ${{ env.FULL_VERSION }}
-            - 特性：${{ env.KSU_BRANCH }} + SUSFS + VFS + KPM
-            - hook模式：${{ github.event.inputs.hook_method }}
-            - KPM支持 (仅对sukisu生效)：${{ github.event.inputs.kpm_enable }}
-            - LZ4KD支持：${{ env.lz4kd_enable }}
-            - LZ4支持：${{ env.lz4_zstd_enable }}
-            - 网络功能增强：${{ github.event.inputs.better_net }}
-            - BBR/Brutal 等拥塞控制算法支持：${{ github.event.inputs.bbr_enable }}
-            - 三星SSG IO调度器支持：${{ env.ssg_enable }}
-            - Re-Kernel支持：${{ env.rekernel_enable }}
-            - 内核级基带保护支持：${{ github.event.inputs.baseband_guard }}"
+          kernel_info="- 内核版本号: ${{ env.FULL_VERSION }} \n- 特性：${{ env.KSU_BRANCH }} + SUSFS + VFS + KPM\n- hook模式：${{ github.event.inputs.hook_method }}\n- KPM支持 (仅对sukisu生效)：${{ github.event.inputs.kpm_enable }}\n    - LZ4KD支持：${{ env.lz4kd_enable }}\n    - LZ4支持：${{ env.lz4_zstd_enable }}\n    - 网络功能增强：${{ github.event.inputs.better_net }}\n    - BBR/Brutal 等拥塞控制算法支持：${{ github.event.inputs.bbr_enable }}\n    - 三星SSG IO调度器支持：${{ env.ssg_enable }}\n    - Re-Kernel支持：${{ env.rekernel_enable }}\n    - 内核级基带保护支持：${{ github.event.inputs.baseband_guard }}"
           EOF
           cp ../common/out/arch/arm64/boot/Image ./Image
           if [[ ! -f ./Image ]]; then
