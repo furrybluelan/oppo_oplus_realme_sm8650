@@ -559,7 +559,7 @@ jobs:
         run: |
           cd kernel_workspace
           git clone https://github.com/furrybluelan/AnyKernel3_using --depth=1
-          mv /AnyKernel3_using ./AnyKernel3
+          mv ./AnyKernel3_using ./AnyKernel3
           rm -rf ./AnyKernel3/.git
           cd AnyKernel3
           cat > infoes.prop << EOF
