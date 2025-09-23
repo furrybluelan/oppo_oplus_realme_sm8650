@@ -559,9 +559,10 @@ jobs:
         run: |
           cd kernel_workspace
           git clone https://github.com/furrybluelan/AnyKernel3_using --depth=1
+          mv /AnyKernel3_using ./AnyKernel3
           rm -rf ./AnyKernel3/.git
           cd AnyKernel3
-          cat > infos.prop << EOF
+          cat > infoes.prop << EOF
           kernel_info="- 内核版本号: ${{ env.FULL_VERSION }}
             - 特性：${{ env.KSU_BRANCH }} + SUSFS + VFS + KPM
             - hook模式：${{ github.event.inputs.hook_method }}
