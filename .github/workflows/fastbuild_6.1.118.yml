@@ -572,7 +572,7 @@ jobs:
             - BBR/Brutal 等拥塞控制算法支持：${{ github.event.inputs.bbr_enable }}
             - 三星SSG IO调度器支持：${{ env.ssg_enable }}
             - Re-Kernel支持：${{ env.rekernel_enable }}
-            - 内核级基带保护支持：${{ github.event.inputs.baseband_guard }}\""
+            - 内核级基带保护支持：${{ github.event.inputs.baseband_guard }}\"" > infoes.prop
           cp ../common/out/arch/arm64/boot/Image ./Image
           if [[ ! -f ./Image ]]; then
             echo "未找到内核镜像文件，构建可能出错"
